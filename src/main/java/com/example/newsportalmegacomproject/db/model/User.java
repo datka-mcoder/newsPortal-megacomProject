@@ -1,10 +1,16 @@
 package com.example.newsportalmegacomproject.db.model;
 
+import com.example.newsportalmegacomproject.config.security.UserDetailsServiceImpl;
+import com.example.newsportalmegacomproject.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -14,7 +20,7 @@ import static jakarta.persistence.CascadeType.ALL;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "user_gen", strategy = GenerationType.SEQUENCE)
@@ -27,14 +33,54 @@ public class User {
 
     private String nickName;
 
+    private String email;
+
+    private String password;
+
     private String image;
 
-    @OneToOne(cascade = ALL)
-    private AuthInfo authInfo;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<News> news;
 
     @OneToMany(cascade = {ALL}, mappedBy = "user")
     private List<Favorite> favorites;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(role);
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
