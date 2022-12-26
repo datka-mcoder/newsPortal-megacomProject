@@ -20,7 +20,7 @@ public class Swagger {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes(API_KEY, apiKeySecuritySchema()))
-                .info(new Info().title("Task Tracker App").description("Written by: Datka Mamatzhanova"))
+                .info(new Info().title("News Portal App").description("Written by: Datka Mamatzhanova"))
                 .security(Collections.singletonList(new SecurityRequirement().addList(API_KEY)));
     }
 

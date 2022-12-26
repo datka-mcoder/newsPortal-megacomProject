@@ -1,6 +1,6 @@
 package com.example.newsportalmegacomproject.db.service;
 
-import com.example.newsportalmegacomproject.config.security.JwtTokenUtil;
+import com.example.newsportalmegacomproject.config.security.JwtUtil;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.SignUpRequest;
@@ -19,7 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtUtil jwtTokenUtil;
 
     public AuthResponse registration(SignUpRequest request) {
 

@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtUtil jwtTokenUtil;
     private final UserRepository userRepository;
 
     public static final String AUTHORIZATION = "Authorization";
