@@ -33,8 +33,6 @@ public class User implements UserDetails {
 
     private String nickName;
 
-    private String email;
-
     private String password;
 
     private String image;
@@ -48,6 +46,13 @@ public class User implements UserDetails {
     @OneToMany(cascade = {ALL}, mappedBy = "user")
     private List<Favorite> favorites;
 
+    public User(String firstName, String lastName, String nickName, String password, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.nickName = nickName;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.nickName;
     }
 
     @Override
