@@ -2,12 +2,15 @@ package com.example.newsportalmegacomproject.api;
 
 import com.example.newsportalmegacomproject.db.service.NewsService;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
+import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.SimpleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/news")
@@ -40,5 +43,17 @@ public class NewsAPI {
     @PutMapping("/{id}")
     public NewsResponse changeNewsAction(@PathVariable Long id) {
         return newsService.changeNewsAction(id);
+    }
+
+    @Operation(summary = "Get all news", description = "Get all news")
+    @GetMapping
+    public List<NewsResponse> getAllNews() {
+        return newsService.getAllNews();
+    }
+
+    @Operation(summary = "Get all my publications", description = "Get all my publications")
+    @GetMapping("/my-publications")
+    public List<MyNewsResponse> getAllMyPublications() {
+        return newsService.getAllMyPublications();
     }
 }

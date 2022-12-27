@@ -10,6 +10,7 @@ import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
+import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.SimpleResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
@@ -175,5 +176,15 @@ public class NewsService {
         return newsResponses;
     }
 
+    public List<MyNewsResponse> getAllMyPublications() {
+        User user = authenticateUser();
+        List<News> news = user.getNews();
+        List<MyNewsResponse> newsResponses = new ArrayList<>();
+        for (News n : news) {
+            newsResponses.add(new MyNewsResponse(n));
+        }
+
+        return newsResponses;
+    }
 
 }
