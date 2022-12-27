@@ -6,5 +6,6 @@ public enum Category {
     POLITIC,
     STAR,
     ART,
-    FASHION
+    FASHION,
+    NOT_CHOSEN;
 }

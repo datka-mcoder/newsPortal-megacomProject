@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = {ALL}, mappedBy = "user")
     private List<Favorite> favorites;
 
+    @OneToMany(cascade = {ALL})
+    private List<Comment> comments;
+
     public User(String firstName, String lastName, String nickName, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;

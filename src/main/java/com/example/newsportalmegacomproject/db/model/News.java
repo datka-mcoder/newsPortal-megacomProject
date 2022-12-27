@@ -24,6 +24,8 @@ public class News {
 
     private String title;
 
+    private String description;
+
     private String text;
 
     private String imageCover;
