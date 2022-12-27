@@ -31,6 +31,5 @@ public class NewsResponse {
         this.text = news.getText();
         this.createdAt = news.getCreatedAt();
         this.imageCover = news.getImageCover();
-        this.isFavorite = news.getIsFavorite();
     }
 }

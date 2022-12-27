@@ -35,4 +35,10 @@ public class NewsAPI {
     public SimpleResponse deleteNewsById(@PathVariable Long id) {
         return newsService.deleteNewsById(id);
     }
+
+    @Operation(summary = "Change news action", description = "Change news action by id")
+    @PutMapping("/{id}")
+    public NewsResponse changeNewsAction(@PathVariable Long id) {
+        return newsService.changeNewsAction(id);
+    }
 }

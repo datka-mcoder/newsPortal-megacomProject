@@ -1,5 +1,8 @@
 package com.example.newsportalmegacomproject.dto.request;
 
+import com.example.newsportalmegacomproject.enums.Category;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +19,6 @@ public class NewsRequest {
     private String description;
     private String text;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }

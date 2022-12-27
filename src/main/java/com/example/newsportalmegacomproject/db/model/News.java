@@ -34,7 +34,7 @@ public class News {
 
     private LocalDate createdAt;
 
-    private Boolean isFavorite;
+    private Boolean isFavorite = false;
 
     @ManyToOne(cascade = {ALL})
     private User user;
@@ -51,5 +51,6 @@ public class News {
         this.text = request.getText();
         this.imageCover = request.getImageCover();
         this.createdAt = LocalDate.now();
+        this.category = request.getCategory();
     }
 }

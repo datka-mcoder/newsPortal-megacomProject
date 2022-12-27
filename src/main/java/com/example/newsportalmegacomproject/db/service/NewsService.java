@@ -66,12 +66,7 @@ public class NewsService {
                 () -> new NotFoundException("News with id: " + id + " not found!")
         );
 
-        List<Comment> comments = commentRepository.getAllNewsComment(news.getId());
-        List<CommentResponse> commentResponses = new ArrayList<>();
-        for (Comment comment : comments) {
-            commentResponses.add(commentRepository.getCommentResponse(comment.getId()));
-        }
-
+        List<CommentResponse> commentResponses = commentRepository.getAllCommentResponsesByNewsId(news.getId());
         List<Favorite> favorites = favoriteRepository.findAll();
         for (Favorite fav : favorites) {
             if (fav.getNews().equals(news)) {
@@ -117,7 +112,68 @@ public class NewsService {
         return new SimpleResponse("News with id: " + id + " successfully deleted!", "DELETE");
     }
 
-    public NewsResponse makeFavorite(Long id) {
+    public NewsResponse changeNewsAction(Long id) {
+        User user = authenticateUser();
+        News news = newsRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("News with id: " + id + " not found!")
+        );
 
+        List<Favorite> favorites = user.getFavorites();
+        if (favorites != null) {
+            for (Favorite fav : favorites) {
+                if (fav.getNews().equals(news)) {
+                    favoriteRepository.delete(fav);
+                    return new NewsResponse(
+                            news.getId(),
+                            news.getTitle(),
+                            news.getDescription(),
+                            news.getText(),
+                            news.getCreatedAt(),
+                            news.getImageCover(),
+                            false,
+                            commentRepository.getAllCommentResponsesByNewsId(id)
+                    );
+                }
+            }
+        }
+
+        Favorite favorite = new Favorite(news, user);
+        favoriteRepository.save(favorite);
+
+        return new NewsResponse(
+                news.getId(),
+                news.getTitle(),
+                news.getDescription(),
+                news.getText(),
+                news.getCreatedAt(),
+                news.getImageCover(),
+                true,
+                commentRepository.getAllCommentResponsesByNewsId(id)
+        );
     }
+
+    public List<NewsResponse> getAllNews() {
+        User user = authenticateUser();
+        List<News> news = newsRepository.findAll();
+        List<NewsResponse> newsResponses = new ArrayList<>();
+        for (News n : news) {
+            NewsResponse newsResponse = new NewsResponse(n);
+            if (user.getFavorites() != null) {
+                for (Favorite fav : user.getFavorites()) {
+                    if (fav.getNews().equals(n)) {
+                        newsResponse.setIsFavorite(true);
+                    }
+                }
+            } else {
+                newsResponse.setIsFavorite(false);
+            }
+
+            newsResponse.setCommentResponses(commentRepository.getAllCommentResponsesByNewsId(n.getId()));
+            newsResponses.add(newsResponse);
+        }
+
+        return newsResponses;
+    }
+
+
 }
