@@ -1,7 +1,6 @@
 package com.example.newsportalmegacomproject.db.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,11 +14,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Comment {
 
+    @Id
+    @GeneratedValue(generator = "comment-gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "comment-gen", sequenceName = "comment-seq", allocationSize = 1)
     private Long id;
 
     private String text;
 
     private LocalDate commentedDate;
 
-    private
+    @ManyToOne
+    private User user;
 }

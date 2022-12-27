@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.db.model;
 
+import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.enums.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -40,4 +41,12 @@ public class News {
 
     @OneToOne(cascade = {ALL}, mappedBy = "news")
     private Favorite favorite;
+
+    public News(NewsRequest request) {
+        this.title = request.getTitle();
+        this.description = request.getDescription();
+        this.text = request.getText();
+        this.imageCover = request.getImageCover();
+        this.createdAt = LocalDate.now();
+    }
 }

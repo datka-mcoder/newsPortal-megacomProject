@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NewsResponse {
 
+    private Long id;
     private String title;
     private String description;
     private String text;
