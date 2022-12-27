@@ -8,6 +8,7 @@ public class NewsPortalMegacomProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(NewsPortalMegacomProjectApplication.class, args);
+        System.out.println("Hello world!");
     }
 
 }

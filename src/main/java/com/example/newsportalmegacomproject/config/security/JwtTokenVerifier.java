@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtUtil jwtTokenUtil;
     private final UserRepository userRepository;
 
     public static final String AUTHORIZATION = "Authorization";
@@ -35,10 +35,10 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
         Optional<String> optional = getJwtFromRequest(request);
 
         optional.ifPresent(token -> {
-                    String email = jwtTokenUtil.validateJWTToken(token);
+                    String nickName = jwtTokenUtil.validateJWTToken(token);
 
-                    User user = userRepository.findByEmail(email).orElseThrow(
-                            () -> new UsernameNotFoundException(String.format("email(%s) not found", email)));
+                    User user = userRepository.findByNickName(nickName).orElseThrow(
+                            () -> new UsernameNotFoundException(String.format("nick name (%s) not found", nickName)));
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                             user,
                             null,
