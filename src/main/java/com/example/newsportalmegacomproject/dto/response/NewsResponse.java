@@ -21,7 +21,7 @@ public class NewsResponse {
     private String text;
     private LocalDate createdAt;
     private String imageCover;
-    private FavoriteResponse favoriteResponse;
+    private Boolean isFavorite;
     private List<CommentResponse> commentResponses;
 
     public NewsResponse(News news) {
@@ -31,5 +31,6 @@ public class NewsResponse {
         this.text = news.getText();
         this.createdAt = news.getCreatedAt();
         this.imageCover = news.getImageCover();
+        this.isFavorite = news.getIsFavorite();
     }
 }
