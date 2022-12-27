@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+import static jakarta.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "comments")
 @Getter
@@ -25,4 +27,7 @@ public class Comment {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
+    private News news;
 }

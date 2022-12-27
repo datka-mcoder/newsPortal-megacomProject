@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoriteResponse {
+public class CommentedUserResponse {
 
     private Long id;
-    private Long newsId;
-    private String title;
-    private String imageCover;
-    private boolean isFavorite;
+    private String firstName;
+    private String lastName;
+    private String image;
 }

@@ -20,6 +20,8 @@ public class Favorite {
     @SequenceGenerator(name = "favorite_gen", sequenceName = "favorite_seq", allocationSize = 1)
     private Long id;
 
+    private Boolean isFavorite;
+
     @OneToOne(cascade = {DETACH, REFRESH, MERGE})
     private News news;
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
 
@@ -32,6 +33,8 @@ public class News {
     private String imageCover;
 
     private LocalDate createdAt;
+
+    private Boolean isFavorite;
 
     @ManyToOne(cascade = {ALL})
     private User user;

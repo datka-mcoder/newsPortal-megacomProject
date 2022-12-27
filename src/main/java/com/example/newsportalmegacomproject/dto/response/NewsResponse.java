@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.dto.response;
 
+import com.example.newsportalmegacomproject.db.model.News;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,13 @@ public class NewsResponse {
     private String imageCover;
     private FavoriteResponse favoriteResponse;
     private List<CommentResponse> commentResponses;
+
+    public NewsResponse(News news) {
+        this.id = news.getId();
+        this.title = news.getTitle();
+        this.description = news.getDescription();
+        this.text = news.getText();
+        this.createdAt = news.getCreatedAt();
+        this.imageCover = news.getImageCover();
+    }
 }
