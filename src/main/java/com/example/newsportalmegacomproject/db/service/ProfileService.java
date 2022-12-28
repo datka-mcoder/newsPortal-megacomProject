@@ -4,6 +4,7 @@ import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
+import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
@@ -37,5 +38,14 @@ public class ProfileService {
         ProfileResponse profileResponse = userRepository.getProfile(user.getNickName());
         profileResponse.setMyNewsResponses(news);
         return profileResponse;
+    }
+
+    public ProfileResponse updateProfile(UpdateProfileRequest request) {
+        User user = getAuthenticateUser();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setNickName(request.getNickName());
+        User save = userRepository.save(user);
+        return userRepository.getProfile(save.getNickName());
     }
 }
