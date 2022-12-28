@@ -2,11 +2,14 @@ package com.example.newsportalmegacomproject.db.repository;
 
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
+import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
+import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,4 +27,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "u.lastName, " +
             "u.image) from User u where u.id = :id")
     CommentedUserResponse getCommentedUser(Long id);
+
+    @Query("select new com.example.newsportalmegacomproject.dto.response.ProfileResponse(" +
+            "u.id, " +
+            "u.firstName, " +
+            "u.lastName, " +
+            "u.nickName," +
+            "u.image) from User u where u.nickName = :nickName")
+    ProfileResponse getProfile(String nickName);
 }
