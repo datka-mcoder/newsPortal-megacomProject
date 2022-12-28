@@ -14,6 +14,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
             "f.news.id, " +
             "f.news.title, " +
             "f.news.imageCover, " +
-            "f.news.isFavorite) from Favorite f where f.id = :id")
+            "true) from Favorite f where f.id = :id order by f.id desc")
     FavoriteResponse getFavoriteResponse(Long id);
 }

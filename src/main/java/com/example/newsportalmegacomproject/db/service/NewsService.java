@@ -155,7 +155,7 @@ public class NewsService {
 
     public List<NewsResponse> getAllNews() {
         User user = authenticateUser();
-        List<News> news = newsRepository.findAll();
+        List<News> news = newsRepository.getAllNewsSortedByIds();
         List<NewsResponse> newsResponses = new ArrayList<>();
         for (News n : news) {
             NewsResponse newsResponse = new NewsResponse(n);
@@ -178,13 +178,6 @@ public class NewsService {
 
     public List<MyNewsResponse> getAllMyPublications() {
         User user = authenticateUser();
-        List<News> news = user.getNews();
-        List<MyNewsResponse> newsResponses = new ArrayList<>();
-        for (News n : news) {
-            newsResponses.add(new MyNewsResponse(n));
-        }
-
-        return newsResponses;
+        return newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
     }
-
 }

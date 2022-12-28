@@ -14,9 +14,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select new com.example.newsportalmegacomproject.dto.response.CommentResponse(" +
             "c.id, " +
             "c.text, " +
-            "c.commentedDate) from Comment c where c.news.id = :id")
+            "c.commentedDate) from Comment c where c.news.id = :id order by c.id desc ")
     List<CommentResponse> getAllCommentResponsesByNewsId(Long id);
 
-    @Query("select c from Comment c where c.news.id = :newsId")
+    @Query("select c from Comment c where c.news.id = :newsId order by c.id desc ")
     List<Comment> getAllNewsComment(Long newsId);
 }
