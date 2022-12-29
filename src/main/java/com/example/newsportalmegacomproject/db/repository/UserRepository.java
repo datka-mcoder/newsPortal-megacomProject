@@ -1,8 +1,8 @@
 package com.example.newsportalmegacomproject.db.repository;
 
+import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
-import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "u.nickName," +
             "u.image) from User u where u.nickName = :nickName")
     ProfileResponse getProfile(String nickName);
+
+    @Query("select n from News n where n.user.nickName = :nickName order by n.id desc ")
+    List<News> getAllMyPublicationsSortedByIds(String nickName);
 }
