@@ -192,6 +192,7 @@ public class NewsService {
 
             newsResponses.add(newsResponse);
         }
-        return newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
+
+        return newsResponses;
     }
 }
