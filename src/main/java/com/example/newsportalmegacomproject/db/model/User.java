@@ -1,6 +1,7 @@
 package com.example.newsportalmegacomproject.db.model;
 
 import com.example.newsportalmegacomproject.config.security.UserDetailsServiceImpl;
+import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -55,6 +56,12 @@ public class User implements UserDetails {
         this.nickName = nickName;
         this.password = password;
         this.role = role;
+    }
+
+    public User(UpdateProfileRequest request) {
+        this.firstName = request.getFirstName();
+        this.lastName = request.getLastName();
+        this.nickName = request.getNickName();
     }
 
     @Override
