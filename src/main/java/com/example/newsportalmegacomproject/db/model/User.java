@@ -1,6 +1,5 @@
 package com.example.newsportalmegacomproject.db.model;
 
-import com.example.newsportalmegacomproject.config.security.UserDetailsServiceImpl;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.enums.Role;
 import jakarta.persistence.*;
