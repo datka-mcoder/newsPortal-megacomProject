@@ -1,6 +1,7 @@
 package com.example.newsportalmegacomproject.api;
 
 import com.example.newsportalmegacomproject.db.service.ProfileService;
+import com.example.newsportalmegacomproject.dto.request.UpdateProfileImageRequest;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,5 +28,11 @@ public class ProfileAPI {
     @PutMapping
     public ProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
         return profileService.updateProfile(request);
+    }
+
+    @Operation(summary = "Update profile image", description = "Update profile image")
+    @PutMapping("/image")
+    public ProfileResponse updateProfileImage(@RequestBody UpdateProfileImageRequest request) {
+        return profileService.updateProfileImage(request);
     }
 }

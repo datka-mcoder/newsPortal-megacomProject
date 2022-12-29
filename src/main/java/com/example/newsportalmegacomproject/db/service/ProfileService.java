@@ -4,6 +4,7 @@ import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
+import com.example.newsportalmegacomproject.dto.request.UpdateProfileImageRequest;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
@@ -47,5 +48,15 @@ public class ProfileService {
         user.setNickName(request.getNickName());
         User save = userRepository.save(user);
         return userRepository.getProfile(save.getNickName());
+    }
+
+    public ProfileResponse updateProfileImage(UpdateProfileImageRequest request) {
+        User user = getAuthenticateUser();
+        user.setImage(request.getImage());
+        User save = userRepository.save(user);
+        ProfileResponse profileResponse = userRepository.getProfile(save.getNickName());
+        List<MyNewsResponse> myNewsResponses = newsRepository.getAllUserNewsResponsesSortedByIds(save.getNickName());
+        profileResponse.setMyNewsResponses(myNewsResponses);
+        return profileResponse;
     }
 }
