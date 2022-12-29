@@ -178,9 +178,15 @@ public class NewsService {
         User user = authenticateUser();
         List<News> news = userRepository.getAllMyPublicationsSortedByIds(user.getNickName());
         List<NewsResponse> newsResponses = new ArrayList<>();
+        List<News> favoriteNews = new ArrayList<>();
+        List<Favorite> userFavorites = user.getFavorites();
+        for (Favorite fav : userFavorites) {
+            favoriteNews.add(fav.getNews());
+        }
+
         for (News n : news) {
             NewsResponse newsResponse = new NewsResponse(n);
-            if (user.getFavorites() != null) {
+            if (favoriteNews.contains(n)) {
                 for (Favorite fav : user.getFavorites()) {
                     if (fav.getNews().equals(n)) {
                         newsResponse.setIsFavorite(true);
