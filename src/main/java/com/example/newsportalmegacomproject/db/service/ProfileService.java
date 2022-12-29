@@ -1,12 +1,11 @@
 package com.example.newsportalmegacomproject.db.service;
 
-import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileImageRequest;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
-import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
+import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,7 +34,7 @@ public class ProfileService {
 
     public ProfileResponse getMyProfile() {
         User user = getAuthenticateUser();
-        List<MyNewsResponse> news = newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
+        List<NewsResponse> news = newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
         ProfileResponse profileResponse = userRepository.getProfile(user.getNickName());
         profileResponse.setMyNewsResponses(news);
         return profileResponse;
@@ -55,7 +54,7 @@ public class ProfileService {
         user.setImage(request.getImage());
         User save = userRepository.save(user);
         ProfileResponse profileResponse = userRepository.getProfile(save.getNickName());
-        List<MyNewsResponse> myNewsResponses = newsRepository.getAllUserNewsResponsesSortedByIds(save.getNickName());
+        List<NewsResponse> myNewsResponses = newsRepository.getAllUserNewsResponsesSortedByIds(save.getNickName());
         profileResponse.setMyNewsResponses(myNewsResponses);
         return profileResponse;
     }

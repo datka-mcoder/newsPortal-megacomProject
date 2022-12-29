@@ -1,6 +1,5 @@
 package com.example.newsportalmegacomproject.db.service;
 
-import com.example.newsportalmegacomproject.db.model.Comment;
 import com.example.newsportalmegacomproject.db.model.Favorite;
 import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
@@ -10,8 +9,8 @@ import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
-import com.example.newsportalmegacomproject.dto.response.MyNewsResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
+import com.example.newsportalmegacomproject.dto.response.NewsInnerResponsePage;
 import com.example.newsportalmegacomproject.dto.response.SimpleResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -43,12 +42,12 @@ public class NewsService {
     }
 
 
-    public NewsResponse publishNews(NewsRequest request) {
+    public NewsInnerResponsePage publishNews(NewsRequest request) {
         User user = authenticateUser();
         News news = new News(request);
         news.setUser(user);
         News save = newsRepository.save(news);
-        return new NewsResponse(
+        return new NewsInnerResponsePage(
                 save.getId(),
                 save.getTitle(),
                 save.getDescription(),
@@ -61,7 +60,7 @@ public class NewsService {
     }
 
 
-    public NewsResponse getNewsById(Long id) {
+    public NewsInnerResponsePage getNewsById(Long id) {
         User user = authenticateUser();
         News news = newsRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("News with id: " + id + " not found!")
@@ -72,7 +71,7 @@ public class NewsService {
         for (Favorite fav : favorites) {
             if (fav.getNews().equals(news)) {
                 if (fav.getUser().equals(user)) {
-                    return new NewsResponse(
+                    return new NewsInnerResponsePage(
                             news.getId(),
                             news.getTitle(),
                             news.getDescription(),
@@ -86,7 +85,7 @@ public class NewsService {
             }
         }
 
-        return new NewsResponse(
+        return new NewsInnerResponsePage(
                 news.getId(),
                 news.getTitle(),
                 news.getDescription(),
@@ -113,7 +112,7 @@ public class NewsService {
         return new SimpleResponse("News with id: " + id + " successfully deleted!", "DELETE");
     }
 
-    public NewsResponse changeNewsAction(Long id) {
+    public NewsInnerResponsePage changeNewsAction(Long id) {
         User user = authenticateUser();
         News news = newsRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("News with id: " + id + " not found!")
@@ -124,7 +123,7 @@ public class NewsService {
             for (Favorite fav : favorites) {
                 if (fav.getNews().equals(news)) {
                     favoriteRepository.delete(fav);
-                    return new NewsResponse(
+                    return new NewsInnerResponsePage(
                             news.getId(),
                             news.getTitle(),
                             news.getDescription(),
@@ -141,7 +140,7 @@ public class NewsService {
         Favorite favorite = new Favorite(news, user);
         favoriteRepository.save(favorite);
 
-        return new NewsResponse(
+        return new NewsInnerResponsePage(
                 news.getId(),
                 news.getTitle(),
                 news.getDescription(),
@@ -169,15 +168,30 @@ public class NewsService {
                 newsResponse.setIsFavorite(false);
             }
 
-            newsResponse.setCommentResponses(commentRepository.getAllCommentResponsesByNewsId(n.getId()));
             newsResponses.add(newsResponse);
         }
 
         return newsResponses;
     }
 
-    public List<MyNewsResponse> getAllMyPublications() {
+    public List<NewsResponse> getAllMyPublications() {
         User user = authenticateUser();
+        List<News> news = userRepository.getAllMyPublicationsSortedByIds(user.getNickName());
+        List<NewsResponse> newsResponses = new ArrayList<>();
+        for (News n : news) {
+            NewsResponse newsResponse = new NewsResponse(n);
+            if (user.getFavorites() != null) {
+                for (Favorite fav : user.getFavorites()) {
+                    if (fav.getNews().equals(n)) {
+                        newsResponse.setIsFavorite(true);
+                    }
+                }
+            } else {
+                newsResponse.setIsFavorite(false);
+            }
+
+            newsResponses.add(newsResponse);
+        }
         return newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
     }
 }

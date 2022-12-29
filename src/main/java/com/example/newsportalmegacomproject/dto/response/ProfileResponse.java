@@ -18,7 +18,7 @@ public class ProfileResponse {
     private String lastName;
     private String nickName;
     private String image;
-    private List<MyNewsResponse> myNewsResponses;
+    private List<NewsResponse> myNewsResponses;
 
     public ProfileResponse(Long id, String firstName, String lastName, String nickName, String image) {
         this.id = id;
