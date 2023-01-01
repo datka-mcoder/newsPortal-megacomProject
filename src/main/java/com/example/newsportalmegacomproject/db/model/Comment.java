@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.db.model;
 
+import com.example.newsportalmegacomproject.dto.request.CommentRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,10 @@ public class Comment {
 
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private News news;
+
+    public Comment(CommentRequest request) {
+        this.text = request.getText();
+        this.commentedDate = LocalDate.now();
+
+    }
 }
