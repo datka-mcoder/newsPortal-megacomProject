@@ -49,10 +49,30 @@ public class CommentService {
                 save.getId(),
                 save.getText(),
                 save.getCommentedDate(),
-                userResponse);
+                userResponse
+        );
     }
 
     public CommentResponse replyToComment(Long commentId, CommentRequest request) {
+        User user = getAuthenticateUser();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new NotFoundException("Comment with id: " + commentId + " not found!")
+        );
 
+        News news = newsRepository.findById(comment.getNews().getId()).orElseThrow(
+                () -> new NotFoundException("News with id: " + comment.getNews().getId() + " not found!")
+        );
+
+        Comment replyToComment = new Comment(request);
+        comment.setNews(news);
+        comment.setUser(user);
+        Comment save = commentRepository.save(replyToComment);
+        CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
+        return new CommentResponse(
+                save.getId(),
+                save.getText(),
+                save.getCommentedDate(),
+                userResponse
+        );
     }
 }
