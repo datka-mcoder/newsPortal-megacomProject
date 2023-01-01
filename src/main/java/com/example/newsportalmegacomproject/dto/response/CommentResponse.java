@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.dto.response;
 
+import com.example.newsportalmegacomproject.db.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class CommentResponse {
     private Long id;
     private String text;
     private LocalDate commentedDate;
-    private CommentedUserResponse userResponse;
+    private CommentedUserResponse commentedUserResponse;
 
     public CommentResponse(Long id, String text, LocalDate commentedDate) {
         this.id = id;
