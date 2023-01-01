@@ -45,6 +45,14 @@ public class CommentService {
         comment.setUser(user);
         Comment save = commentRepository.save(comment);
         CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
-        return new CommentResponse()
+        return new CommentResponse(
+                save.getId(),
+                save.getText(),
+                save.getCommentedDate(),
+                userResponse);
+    }
+
+    public CommentResponse replyToComment(Long commentId, CommentRequest request) {
+
     }
 }
