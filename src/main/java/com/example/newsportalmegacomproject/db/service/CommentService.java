@@ -7,6 +7,7 @@ import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.CommentRequest;
+import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
@@ -53,7 +54,7 @@ public class CommentService {
         );
     }
 
-    public CommentResponse replyToComment(Long commentId, CommentRequest request) {
+    public CommentResponse replyToComment(Long commentId, ReplyToCommentRequest request) {
         User user = getAuthenticateUser();
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new NotFoundException("Comment with id: " + commentId + " not found!")
