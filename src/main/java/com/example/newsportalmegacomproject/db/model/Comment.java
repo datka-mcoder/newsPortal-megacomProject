@@ -1,12 +1,15 @@
 package com.example.newsportalmegacomproject.db.model;
 
 import com.example.newsportalmegacomproject.dto.request.CommentRequest;
+import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -24,7 +27,10 @@ public class Comment {
 
     private String text;
 
-    private LocalDate commentedDate;
+    private LocalDate createdAt;
+
+    @OneToMany(cascade = {ALL})
+    private List<Comment> comments;
 
     @ManyToOne
     private User user;
@@ -32,9 +38,18 @@ public class Comment {
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private News news;
 
+    @OneToMany(cascade = {ALL}, mappedBy = "comment")
+    private List<ReplyComment> replyComments;
+
     public Comment(CommentRequest request) {
         this.text = request.getText();
-        this.commentedDate = LocalDate.now();
+        this.createdAt = LocalDate.now();
+    }
 
+    public void addReplyComment(ReplyComment replyComment) {
+        if (replyComments == null) {
+            replyComments = new ArrayList<>();
+        }
+        replyComments.add(replyComment);
     }
 }
