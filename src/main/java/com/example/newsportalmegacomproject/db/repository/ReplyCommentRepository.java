@@ -15,6 +15,6 @@ public interface ReplyCommentRepository extends JpaRepository<ReplyComment, Long
     @Query("select new com.example.newsportalmegacomproject.dto.response.ReplyCommentResponse(" +
             "r.id, " +
             "r.text, " +
-            "r.replyToCommentedDate) from ReplyComment r where r.comment.id = :id")
+            "r.createdAt) from ReplyComment r where r.comment.id = :id")
     List<ReplyCommentResponse> getAllReplyCommentResponse(Long id);
 }

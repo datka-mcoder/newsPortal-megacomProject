@@ -23,7 +23,7 @@ public class ReplyComment {
 
     private String text;
 
-    private LocalDate replyToCommentedDate;
+    private LocalDate createdAt;
 
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private Comment comment;
@@ -34,6 +34,6 @@ public class ReplyComment {
     public ReplyComment(Long id, String text) {
         this.id = id;
         this.text = text;
-        this.replyToCommentedDate = LocalDate.now();
+        this.createdAt = LocalDate.now();
     }
 }

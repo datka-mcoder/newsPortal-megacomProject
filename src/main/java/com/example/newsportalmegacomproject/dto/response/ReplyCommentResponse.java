@@ -11,12 +11,12 @@ public class ReplyCommentResponse {
 
     private Long id;
     private String text;
-    private LocalDate replyCommentedDate;
+    private LocalDate createdAt;
     private CommentedUserResponse userResponse;
 
-    public ReplyCommentResponse(Long id, String text, LocalDate replyCommentedDate) {
+    public ReplyCommentResponse(Long id, String text, LocalDate createdAt) {
         this.id = id;
         this.text = text;
-        this.replyCommentedDate = replyCommentedDate;
+        this.createdAt = createdAt;
     }
 }

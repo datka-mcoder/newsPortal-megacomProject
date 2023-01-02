@@ -27,7 +27,10 @@ public class Comment {
 
     private String text;
 
-    private LocalDate commentedDate;
+    private LocalDate createdAt;
+
+    @OneToMany(cascade = {ALL})
+    private List<Comment> comments;
 
     @ManyToOne
     private User user;
@@ -40,7 +43,7 @@ public class Comment {
 
     public Comment(CommentRequest request) {
         this.text = request.getText();
-        this.commentedDate = LocalDate.now();
+        this.createdAt = LocalDate.now();
     }
 
     public void addReplyComment(ReplyComment replyComment) {

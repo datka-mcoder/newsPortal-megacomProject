@@ -41,8 +41,7 @@ public class CommentService {
         );
     }
 
-
-    public CommentResponse addComment(CommentRequest request) {
+    public CommentResponse addCommentToNews(CommentRequest request) {
         User user = getAuthenticateUser();
         News news = newsRepository.findById(request.getNewsId()).orElseThrow(
                 () -> new NotFoundException("News with id: " + request.getNewsId() + " not found!")
@@ -56,7 +55,7 @@ public class CommentService {
         return new CommentResponse(
                 save.getId(),
                 save.getText(),
-                save.getCommentedDate(),
+                save.getCreatedAt(),
                 userResponse,
                 new ArrayList<>()
         );
@@ -76,9 +75,10 @@ public class CommentService {
         CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
         List<ReplyCommentResponse> replyComments = replyCommentRepository.getAllReplyCommentResponse(comment.getId());
         return new CommentResponse(
-                save.getId(),
-                save.getText(),
-                save.getReplyToCommentedDate(),
+                comment.getId(),
+                comment.getText(),
+                comment.getCreatedAt(),
+                userResponse,
                 replyComments
         );
     }
