@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 import static jakarta.persistence.CascadeType.*;
 
 @Entity
@@ -21,6 +23,8 @@ public class ReplyComment {
 
     private String text;
 
+    private LocalDate replyToCommentedDate;
+
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private Comment comment;
 
@@ -30,5 +34,6 @@ public class ReplyComment {
     public ReplyComment(Long id, String text) {
         this.id = id;
         this.text = text;
+        this.replyToCommentedDate = LocalDate.now();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.newsportalmegacomproject.dto.response;
 
-import com.example.newsportalmegacomproject.db.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

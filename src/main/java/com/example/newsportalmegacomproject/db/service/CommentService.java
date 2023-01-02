@@ -6,11 +6,13 @@ import com.example.newsportalmegacomproject.db.model.ReplyComment;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
+import com.example.newsportalmegacomproject.db.repository.ReplyCommentRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.CommentRequest;
 import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
+import com.example.newsportalmegacomproject.dto.response.ReplyCommentResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -28,6 +31,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final NewsRepository newsRepository;
     private final UserRepository userRepository;
+    private final ReplyCommentRepository replyCommentRepository;
 
     private User getAuthenticateUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,19 +68,18 @@ public class CommentService {
                 () -> new NotFoundException("Comment with id: " + commentId + " not found!")
         );
 
-        News news = newsRepository.findById(comment.getNews().getId()).orElseThrow(
-                () -> new NotFoundException("News with id: " + comment.getNews().getId() + " not found!")
-        );
-
         ReplyComment replyComment = new ReplyComment(comment.getId(), request.getText());
         replyComment.setComment(comment);
         comment.addReplyComment(replyComment);
-
+        replyComment.setUser(user);
+        ReplyComment save = replyCommentRepository.save(replyComment);
+        CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
+        List<ReplyCommentResponse> replyComments = replyCommentRepository.getAllReplyCommentResponse(comment.getId());
         return new CommentResponse(
                 save.getId(),
                 save.getText(),
-                save.getCommentedDate(),
-                userResponse
+                save.getReplyToCommentedDate(),
+                replyComments
         );
     }
 }
