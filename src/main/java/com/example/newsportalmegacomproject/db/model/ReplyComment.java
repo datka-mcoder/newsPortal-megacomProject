@@ -23,4 +23,12 @@ public class ReplyComment {
 
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private Comment comment;
+
+    @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
+    private User user;
+
+    public ReplyComment(Long id, String text) {
+        this.id = id;
+        this.text = text;
+    }
 }

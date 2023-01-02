@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class CommentResponse {
     private String text;
     private LocalDate commentedDate;
     private CommentedUserResponse commentedUserResponse;
+    private List<ReplyCommentResponse> replyCommentResponses;
 
     public CommentResponse(Long id, String text, LocalDate commentedDate) {
         this.id = id;

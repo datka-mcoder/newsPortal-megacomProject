@@ -2,6 +2,7 @@ package com.example.newsportalmegacomproject.db.service;
 
 import com.example.newsportalmegacomproject.db.model.Comment;
 import com.example.newsportalmegacomproject.db.model.News;
+import com.example.newsportalmegacomproject.db.model.ReplyComment;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -50,7 +53,8 @@ public class CommentService {
                 save.getId(),
                 save.getText(),
                 save.getCommentedDate(),
-                userResponse
+                userResponse,
+                new ArrayList<>()
         );
     }
 
@@ -64,11 +68,10 @@ public class CommentService {
                 () -> new NotFoundException("News with id: " + comment.getNews().getId() + " not found!")
         );
 
-        Comment replyToComment = new Comment(request);
-        comment.setNews(news);
-        comment.setUser(user);
-        Comment save = commentRepository.save(replyToComment);
-        CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
+        ReplyComment replyComment = new ReplyComment(comment.getId(), request.getText());
+        replyComment.setComment(comment);
+        comment.addReplyComment(replyComment);
+
         return new CommentResponse(
                 save.getId(),
                 save.getText(),
