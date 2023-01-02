@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.CascadeType.*;
 
@@ -32,6 +33,9 @@ public class Comment {
 
     @ManyToOne(cascade = {DETACH, REFRESH, MERGE})
     private News news;
+
+    @OneToMany(cascade = {ALL}, mappedBy = "comment")
+    private List<ReplyComment> replyComments;
 
     public Comment(CommentRequest request) {
         this.text = request.getText();
