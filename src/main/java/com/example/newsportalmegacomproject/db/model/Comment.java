@@ -29,8 +29,8 @@ public class Comment {
 
     private LocalDate createdAt;
 
-    @OneToMany(cascade = {ALL})
-    private List<Comment> comments;
+//    @OneToMany(cascade = {ALL})
+//    private List<Comment> comments;
 
     @ManyToOne
     private User user;
