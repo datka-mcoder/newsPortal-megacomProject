@@ -6,12 +6,12 @@ import com.example.newsportalmegacomproject.db.repository.FavoriteRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.response.FavoriteResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.newsportalmegacomproject.config.security;
+package com.example.newsportalmegacomproject.db.service;
 
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;

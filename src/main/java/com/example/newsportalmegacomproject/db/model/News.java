@@ -2,14 +2,14 @@ package com.example.newsportalmegacomproject.db.model;
 
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.enums.Category;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-import static jakarta.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name = "news")

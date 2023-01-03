@@ -9,10 +9,11 @@ import com.example.newsportalmegacomproject.dto.response.AuthResponse;
 import com.example.newsportalmegacomproject.enums.Role;
 import com.example.newsportalmegacomproject.exceptions.BadRequestException;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @Transactional

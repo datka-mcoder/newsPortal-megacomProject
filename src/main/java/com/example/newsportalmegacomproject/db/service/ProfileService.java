@@ -8,12 +8,12 @@ import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
