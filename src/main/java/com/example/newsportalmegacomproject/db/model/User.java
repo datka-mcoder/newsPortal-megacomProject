@@ -2,18 +2,18 @@ package com.example.newsportalmegacomproject.db.model;
 
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.enums.Role;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name = "users")

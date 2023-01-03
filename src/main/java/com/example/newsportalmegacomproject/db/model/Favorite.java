@@ -1,12 +1,13 @@
 package com.example.newsportalmegacomproject.db.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import static jakarta.persistence.CascadeType.*;
-import static jakarta.persistence.CascadeType.MERGE;
+import javax.persistence.*;
+
+import static javax.persistence.CascadeType.*;
+
 
 @Entity
 @Table(name = "favorites")
