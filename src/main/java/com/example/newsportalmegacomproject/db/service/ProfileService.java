@@ -1,5 +1,7 @@
 package com.example.newsportalmegacomproject.db.service;
 
+import com.example.newsportalmegacomproject.db.model.Favorite;
+import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,9 +37,29 @@ public class ProfileService {
 
     public ProfileResponse getMyProfile() {
         User user = getAuthenticateUser();
-        List<NewsResponse> news = newsRepository.getAllUserNewsResponsesSortedByIds(user.getNickName());
+        List<News> news = user.getNews();
+        List<Favorite> userFavorites = user.getFavorites();
+        List<News> userFavoriteNews = new ArrayList<>();
         ProfileResponse profileResponse = userRepository.getProfile(user.getNickName());
-        profileResponse.setMyNewsResponses(news);
+        List<NewsResponse> newsResponses = new ArrayList<>();
+        if (userFavorites != null) {
+            for (Favorite fav : userFavorites) {
+                userFavoriteNews.add(fav.getNews());
+            }
+        }
+
+        for (News n : news) {
+            NewsResponse newsResponse = new NewsResponse(n);
+            if (userFavoriteNews.contains(n)) {
+                newsResponse.setIsFavorite(true);
+                newsResponses.add(newsResponse);
+            } else {
+                newsResponse.setIsFavorite(false);
+                newsResponses.add(newsResponse);
+            }
+        }
+
+        profileResponse.setMyNewsResponses(newsResponses);
         return profileResponse;
     }
 
