@@ -2,12 +2,10 @@ package com.example.newsportalmegacomproject.api;
 
 import com.example.newsportalmegacomproject.db.service.CommentService;
 import com.example.newsportalmegacomproject.dto.request.CommentRequest;
-import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,12 +22,4 @@ public class CommentAPI {
     public CommentResponse addCommentToNews(@RequestBody CommentRequest request) {
         return commentService.addCommentToNews(request);
     }
-
-    @Operation(summary = "Reply to comment", description = "Reply to comment by id")
-    @PostMapping("/{commentId}")
-    public CommentResponse replyToComment(@PathVariable Long commentId,
-                                          @RequestBody ReplyToCommentRequest request) {
-        return commentService.replyToComment(commentId, request);
-    }
-
 }

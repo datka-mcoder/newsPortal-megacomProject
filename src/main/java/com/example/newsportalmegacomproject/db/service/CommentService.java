@@ -2,17 +2,14 @@ package com.example.newsportalmegacomproject.db.service;
 
 import com.example.newsportalmegacomproject.db.model.Comment;
 import com.example.newsportalmegacomproject.db.model.News;
-import com.example.newsportalmegacomproject.db.model.ReplyComment;
 import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.ReplyCommentRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.CommentRequest;
-import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
-import com.example.newsportalmegacomproject.dto.response.ReplyCommentResponse;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
