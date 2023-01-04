@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "news")

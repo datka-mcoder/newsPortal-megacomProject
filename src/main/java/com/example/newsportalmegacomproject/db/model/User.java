@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Table(name = "users")
