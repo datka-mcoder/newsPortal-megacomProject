@@ -6,7 +6,7 @@ import com.example.newsportalmegacomproject.db.model.User;
 import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.ReplyCommentRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
-import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
+import com.example.newsportalmegacomproject.dto.request.CommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import com.example.newsportalmegacomproject.dto.response.CommentedUserResponse;
 import com.example.newsportalmegacomproject.dto.response.ReplyCommentResponse;
@@ -36,7 +36,7 @@ public class ReplyToCommentService {
         );
     }
 
-    public CommentResponse replyComment(Long commentId, ReplyToCommentRequest request) {
+    public CommentResponse replyComment(Long commentId, CommentRequest request) {
         User user = getAuthenticateUser();
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new NotFoundException("Comment with id: " + commentId + " not found!")

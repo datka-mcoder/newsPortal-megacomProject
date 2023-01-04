@@ -1,7 +1,7 @@
 package com.example.newsportalmegacomproject.api;
 
 import com.example.newsportalmegacomproject.db.service.ReplyToCommentService;
-import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
+import com.example.newsportalmegacomproject.dto.request.CommentRequest;
 import com.example.newsportalmegacomproject.dto.response.CommentResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +20,7 @@ public class ReplyToCommentAPI {
     @Operation(summary = "Reply to comment", description = "Reply to comment by comment id")
     @PostMapping("/{commentId}")
     public CommentResponse replyComment(@PathVariable Long commentId,
-                                        @RequestBody ReplyToCommentRequest request) {
+                                        @RequestBody CommentRequest request) {
         return replyToCommentService.replyComment(commentId, request);
     }
 }
