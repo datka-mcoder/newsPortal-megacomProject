@@ -21,8 +21,8 @@ import static javax.persistence.CascadeType.*;
 public class Comment {
 
     @Id
-    @GeneratedValue(generator = "comment-gen", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "comment-gen", sequenceName = "comment-seq", allocationSize = 1)
+    @GeneratedValue(generator = "comment_gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "comment_gen", sequenceName = "comment_seq", allocationSize = 1)
     private Long id;
 
     private String text;

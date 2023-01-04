@@ -1,7 +1,6 @@
 package com.example.newsportalmegacomproject.db.repository;
 
 import com.example.newsportalmegacomproject.db.model.ReplyComment;
-import com.example.newsportalmegacomproject.dto.request.ReplyToCommentRequest;
 import com.example.newsportalmegacomproject.dto.response.ReplyCommentResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
