@@ -1,17 +1,12 @@
 package com.example.newsportalmegacomproject.db.service;
 
-import com.example.newsportalmegacomproject.db.model.Favorite;
-import com.example.newsportalmegacomproject.db.model.News;
-import com.example.newsportalmegacomproject.db.model.User;
+import com.example.newsportalmegacomproject.db.model.*;
 import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.FavoriteRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
-import com.example.newsportalmegacomproject.dto.response.CommentResponse;
-import com.example.newsportalmegacomproject.dto.response.NewsResponse;
-import com.example.newsportalmegacomproject.dto.response.NewsInnerResponsePage;
-import com.example.newsportalmegacomproject.dto.response.SimpleResponse;
+import com.example.newsportalmegacomproject.dto.response.*;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -66,7 +61,22 @@ public class NewsService {
                 () -> new NotFoundException("News with id: " + id + " not found!")
         );
 
-        List<CommentResponse> commentResponses = commentRepository.getAllCommentResponsesByNewsId(news.getId());
+        List<CommentResponse> commentResponses = new ArrayList<>();
+        for (Comment com : news.getComments()) {
+            CommentResponse commentResponse = new CommentResponse(com);
+            CommentedUserResponse commentedUserResponse = userRepository.getCommentedUser(com.getUser().getId());
+            for (ReplyComment r : com.getReplyComments()) {
+                List<ReplyCommentResponse> replyCommentResponses = new ArrayList<>();
+                ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(r);
+                CommentedUserResponse replyCommentedUserResponse = userRepository.getCommentedUser(r.getUser().getId());
+                replyCommentResponse.setUserResponse(replyCommentedUserResponse);
+                commentResponse.setReplyCommentResponses(replyCommentResponses);
+            }
+
+            commentResponse.setCommentedUserResponse(commentedUserResponse);
+            commentResponses.add(commentResponse);
+        }
+
         List<Favorite> favorites = favoriteRepository.findAll();
         for (Favorite fav : favorites) {
             if (fav.getNews().equals(news)) {

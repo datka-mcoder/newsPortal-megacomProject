@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.dto.response;
 
+import com.example.newsportalmegacomproject.db.model.ReplyComment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +19,11 @@ public class ReplyCommentResponse {
         this.id = id;
         this.text = text;
         this.createdAt = createdAt;
+    }
+
+    public ReplyCommentResponse(ReplyComment replyComment) {
+        this.id = replyComment.getId();
+        this.text = replyComment.getText();
+        this.createdAt = replyComment.getCreatedAt();
     }
 }

@@ -36,18 +36,24 @@ public class ReplyToCommentService {
         );
     }
 
-    public CommentResponse replyComment(Long commentId, CommentRequest request) {
+    public CommentResponse replyComment(CommentRequest request) {
         User user = getAuthenticateUser();
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new NotFoundException("Comment with id: " + commentId + " not found!")
+        Comment comment = commentRepository.findById(request.getId()).orElseThrow(
+                () -> new NotFoundException("Comment with id: " + request.getId() + " not found!")
         );
 
         ReplyComment replyComment = new ReplyComment(comment.getId(), request.getText());
         replyComment.setComment(comment);
         comment.addReplyComment(replyComment);
         replyComment.setUser(user);
-        ReplyComment save = replyCommentRepository.save(replyComment);
-        CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
+        replyCommentRepository.save(replyComment);
+        CommentedUserResponse userResponse = userRepository.getCommentedUser(comment.getUser().getId());
+        for (ReplyComment com : comment.getReplyComments()) {
+            ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(com);
+            CommentedUserResponse commentedUserResponse = userRepository.getCommentedUser(com.getUser().getId());
+            replyCommentResponse.setUserResponse(commentedUserResponse);
+        }
+
         List<ReplyCommentResponse> replyComments = replyCommentRepository.getAllReplyCommentResponse(comment.getId());
         return new CommentResponse(
                 comment.getId(),
