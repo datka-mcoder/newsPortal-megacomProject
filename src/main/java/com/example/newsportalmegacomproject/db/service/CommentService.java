@@ -39,8 +39,8 @@ public class CommentService {
 
     public CommentResponse addCommentToNews(CommentRequest request) {
         User user = getAuthenticateUser();
-        News news = newsRepository.findById(request.getNewsId()).orElseThrow(
-                () -> new NotFoundException("News with id: " + request.getNewsId() + " not found!")
+        News news = newsRepository.findById(request.getId()).orElseThrow(
+                () -> new NotFoundException("News with id: " + request.getId() + " not found!")
         );
 
         Comment comment = new Comment(request);

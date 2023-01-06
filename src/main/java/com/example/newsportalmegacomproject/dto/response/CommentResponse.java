@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.dto.response;
 
+import com.example.newsportalmegacomproject.db.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,11 @@ public class CommentResponse {
         this.id = id;
         this.text = text;
         this.createdAt = commentedDate;
+    }
+
+    public CommentResponse(Comment comment) {
+        this.id = comment.getId();
+        this.text = comment.getText();
+        this.createdAt = comment.getCreatedAt();
     }
 }

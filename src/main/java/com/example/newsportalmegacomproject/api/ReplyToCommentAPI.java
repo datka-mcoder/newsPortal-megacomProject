@@ -18,9 +18,8 @@ public class ReplyToCommentAPI {
     private final ReplyToCommentService replyToCommentService;
 
     @Operation(summary = "Reply to comment", description = "Reply to comment by comment id")
-    @PostMapping("/{commentId}")
-    public CommentResponse replyComment(@PathVariable Long commentId,
-                                        @RequestBody CommentRequest request) {
-        return replyToCommentService.replyComment(commentId, request);
+    @PostMapping
+    public CommentResponse replyComment(@RequestBody CommentRequest request) {
+        return replyToCommentService.replyComment(request);
     }
 }

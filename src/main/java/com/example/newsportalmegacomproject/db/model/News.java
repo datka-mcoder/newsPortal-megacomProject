@@ -5,9 +5,11 @@ import com.example.newsportalmegacomproject.enums.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 import static javax.persistence.CascadeType.*;
 
@@ -43,6 +45,9 @@ public class News {
 
     @OneToOne(cascade = {ALL}, mappedBy = "news")
     private Favorite favorite;
+
+    @OneToMany(cascade = {ALL})
+    private List<Comment> comments;
 
     public News(NewsRequest request) {
         this.title = request.getTitle();
