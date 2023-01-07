@@ -1,5 +1,6 @@
 package com.example.newsportalmegacomproject.db.service;
 
+import com.example.newsportalmegacomproject.config.security.JwtUtil;
 import com.example.newsportalmegacomproject.db.model.Favorite;
 import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.db.model.User;
@@ -7,8 +8,10 @@ import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileImageRequest;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
+import com.example.newsportalmegacomproject.dto.response.AuthResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
+import com.example.newsportalmegacomproject.exceptions.BadRequestException;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,6 +29,7 @@ public class ProfileService {
 
     private final UserRepository userRepository;
     private final NewsRepository newsRepository;
+    private final JwtUtil jwtUtil;
 
     private User getAuthenticateUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,13 +67,25 @@ public class ProfileService {
         return profileResponse;
     }
 
-    public ProfileResponse updateProfile(UpdateProfileRequest request) {
+    public AuthResponse updateProfile(UpdateProfileRequest request) {
         User user = getAuthenticateUser();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setNickName(request.getNickName());
+        if (userRepository.existsByNickName(request.getNickName())) {
+            throw new BadRequestException("Nick name: " + request.getNickName() + " already in use!");
+        } else {
+            user.setNickName(request.getNickName());
+        }
         User save = userRepository.save(user);
-        return userRepository.getProfile(save.getNickName());
+        String jwt = jwtUtil.generateToken(save.getNickName());
+        return new AuthResponse(
+                save.getId(),
+                save.getFirstName(),
+                save.getLastName(),
+                save.getNickName(),
+                jwt,
+                save.getRole()
+        );
     }
 
     public ProfileResponse updateProfileImage(UpdateProfileImageRequest request) {

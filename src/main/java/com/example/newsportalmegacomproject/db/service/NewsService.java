@@ -7,6 +7,7 @@ import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.*;
+import com.example.newsportalmegacomproject.enums.Category;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -215,5 +216,73 @@ public class NewsService {
         }
 
         return newsResponses;
+    }
+
+    public List<NewsResponse> filterNewsByCategory(List<Category> categories) {
+        List<NewsResponse> filter = new ArrayList<>();
+        User user = authenticateUser();
+        List<News> news = newsRepository.findAll();
+        List<News> filteredNews = new ArrayList<>();
+        for (News n : news) {
+            for (Category c : categories) {
+                if (n.getCategory().equals(c)) {
+                    filteredNews.add(n);
+                }
+            }
+        }
+
+        List<Favorite> userFavorite = user.getFavorites();
+        List<News> userFavoriteNews = new ArrayList<>();
+        for (Favorite fav : userFavorite) {
+            userFavoriteNews.add(fav.getNews());
+        }
+
+        if (filteredNews.size() > userFavoriteNews.size()) {
+            for (News n : filteredNews) {
+                if (userFavoriteNews.contains(n)) {
+                    NewsResponse newsResponse = new NewsResponse(
+                            n.getId(),
+                            n.getTitle(),
+                            n.getDescription(),
+                            n.getImageCover(),
+                            n.getCreatedAt(),
+                            true);
+                    filter.add(newsResponse);
+                } else {
+                    NewsResponse newsResponse = new NewsResponse(
+                            n.getId(),
+                            n.getTitle(),
+                            n.getDescription(),
+                            n.getImageCover(),
+                            n.getCreatedAt(),
+                            false);
+                    filter.add(newsResponse);
+                }
+            }
+        } else {
+            for (News n : userFavoriteNews) {
+                if (filteredNews.contains(n)) {
+                    NewsResponse newsResponse = new NewsResponse(
+                            n.getId(),
+                            n.getTitle(),
+                            n.getDescription(),
+                            n.getImageCover(),
+                            n.getCreatedAt(),
+                            true);
+                    filter.add(newsResponse);
+                } else {
+                    NewsResponse newsResponse = new NewsResponse(
+                            n.getId(),
+                            n.getTitle(),
+                            n.getDescription(),
+                            n.getImageCover(),
+                            n.getCreatedAt(),
+                            false);
+                    filter.add(newsResponse);
+                }
+            }
+        }
+
+        return filter;
     }
 }
