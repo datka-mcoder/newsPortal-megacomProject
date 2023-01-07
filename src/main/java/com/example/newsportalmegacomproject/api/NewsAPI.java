@@ -61,7 +61,7 @@ public class NewsAPI {
 
     @Operation(summary = "Filter news by category", description = "Filter news by category")
     @GetMapping("/filter")
-    public List<NewsRepository> filterNewsByCategory(@RequestBody List<Category> categories) {
+    public List<NewsResponse> filterNewsByCategory(@RequestBody List<Category> categories) {
         return newsService.filterNewsByCategory(categories);
     }
 }

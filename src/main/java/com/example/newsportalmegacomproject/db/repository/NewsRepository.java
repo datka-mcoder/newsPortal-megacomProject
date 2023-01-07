@@ -11,14 +11,17 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-//    @Query("select n from News n order by n.id desc ")
+    @Query("select n from News n order by n.id desc ")
+    List<News> getAllNewsSortedByIds();
+
+
     @Query("select new com.example.newsportalmegacomproject.dto.response.NewsResponse(" +
             "n.id, " +
             "n.title, " +
             "n.description, " +
             "n.imageCover, " +
             "n.createdAt) from News n order by n.id desc ")
-    List<NewsResponse> getAllNewsSortedByIds();
+    List<NewsResponse> getAllNewsResponseSortedByIds();
 
     @Query("select new com.example.newsportalmegacomproject.dto.response.NewsResponse(" +
             "m.id, " +

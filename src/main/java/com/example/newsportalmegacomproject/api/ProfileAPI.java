@@ -3,6 +3,7 @@ package com.example.newsportalmegacomproject.api;
 import com.example.newsportalmegacomproject.db.service.ProfileService;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileImageRequest;
 import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
+import com.example.newsportalmegacomproject.dto.response.AuthResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +27,7 @@ public class ProfileAPI {
 
     @Operation(summary = "Update profile", description = "Update profile by user token")
     @PutMapping
-    public ProfileResponse updateProfile(@RequestBody UpdateProfileRequest request) {
+    public AuthResponse updateProfile(@RequestBody UpdateProfileRequest request) {
         return profileService.updateProfile(request);
     }
 
