@@ -36,4 +36,9 @@ public class ReplyComment {
         this.text = text;
         this.createdAt = LocalDate.now();
     }
+
+    public ReplyComment(String text) {
+        this.text = text;
+        this.createdAt = LocalDate.now();
+    }
 }
