@@ -219,6 +219,7 @@ public class NewsService {
     }
 
     public List<NewsRepository> filterNewsByCategory(List<Category> categories) {
+        List<NewsResponse> newsResponses = newsRepository.getAllNewsSortedByIds();
 
     }
 }
