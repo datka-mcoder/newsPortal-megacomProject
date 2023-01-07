@@ -11,6 +11,7 @@ import com.example.newsportalmegacomproject.dto.request.UpdateProfileRequest;
 import com.example.newsportalmegacomproject.dto.response.AuthResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.ProfileResponse;
+import com.example.newsportalmegacomproject.exceptions.BadRequestException;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -70,8 +71,11 @@ public class ProfileService {
         User user = getAuthenticateUser();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        if ()
-        user.setNickName(request.getNickName());
+        if (userRepository.existsByNickName(request.getNickName())) {
+            throw new BadRequestException("Nick name: " + request.getNickName() + " already in use!");
+        } else {
+            user.setNickName(request.getNickName());
+        }
         User save = userRepository.save(user);
         String jwt = jwtUtil.generateToken(save.getNickName());
         return new AuthResponse(
@@ -81,7 +85,7 @@ public class ProfileService {
                 save.getNickName(),
                 jwt,
                 save.getRole()
-        )
+        );
     }
 
     public ProfileResponse updateProfileImage(UpdateProfileImageRequest request) {
