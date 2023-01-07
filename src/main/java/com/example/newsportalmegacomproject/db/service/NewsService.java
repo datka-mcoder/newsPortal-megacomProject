@@ -7,6 +7,7 @@ import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.*;
+import com.example.newsportalmegacomproject.enums.Category;
 import com.example.newsportalmegacomproject.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -215,5 +216,9 @@ public class NewsService {
         }
 
         return newsResponses;
+    }
+
+    public List<NewsRepository> filterNewsByCategory(List<Category> categories) {
+
     }
 }

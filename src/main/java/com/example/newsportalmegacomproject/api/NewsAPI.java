@@ -1,10 +1,12 @@
 package com.example.newsportalmegacomproject.api;
 
+import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.service.NewsService;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
 import com.example.newsportalmegacomproject.dto.response.NewsInnerResponsePage;
 import com.example.newsportalmegacomproject.dto.response.SimpleResponse;
+import com.example.newsportalmegacomproject.enums.Category;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +57,11 @@ public class NewsAPI {
     @GetMapping("/my-publications")
     public List<NewsResponse> getAllMyPublications() {
         return newsService.getAllMyPublications();
+    }
+
+    @Operation(summary = "Filter news by category", description = "Filter news by category")
+    @GetMapping("/filter")
+    public List<NewsRepository> filterNewsByCategory(@RequestBody List<Category> categories) {
+        return newsService.filterNewsByCategory(categories);
     }
 }
