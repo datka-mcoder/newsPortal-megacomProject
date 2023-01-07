@@ -63,17 +63,16 @@ public class NewsService {
 
         List<CommentResponse> commentResponses = new ArrayList<>();
         for (Comment com : news.getComments()) {
-            CommentResponse commentResponse = new CommentResponse(com);
             CommentedUserResponse commentedUserResponse = userRepository.getCommentedUser(com.getUser().getId());
+            CommentResponse commentResponse = new CommentResponse(com, commentedUserResponse);
+            List<ReplyCommentResponse> replyCommentResponses = new ArrayList<>();
             for (ReplyComment r : com.getReplyComments()) {
-                List<ReplyCommentResponse> replyCommentResponses = new ArrayList<>();
-                ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(r);
                 CommentedUserResponse replyCommentedUserResponse = userRepository.getCommentedUser(r.getUser().getId());
-                replyCommentResponse.setUserResponse(replyCommentedUserResponse);
-                commentResponse.setReplyCommentResponses(replyCommentResponses);
+                ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(r, replyCommentedUserResponse);
+                replyCommentResponses.add(replyCommentResponse);
             }
 
-            commentResponse.setCommentedUserResponse(commentedUserResponse);
+            commentResponse.setReplyCommentResponses(replyCommentResponses);
             commentResponses.add(commentResponse);
         }
 
@@ -168,7 +167,7 @@ public class NewsService {
         List<NewsResponse> newsResponses = new ArrayList<>();
         List<News> allNews = new ArrayList<>();
         List<Favorite> userFavorites = user.getFavorites();
-        for (Favorite fav: userFavorites) {
+        for (Favorite fav : userFavorites) {
             allNews.add(fav.getNews());
         }
 

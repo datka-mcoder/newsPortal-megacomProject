@@ -46,6 +46,7 @@ public class CommentService {
         Comment comment = new Comment(request);
         comment.setNews(news);
         comment.setUser(user);
+        user.addComment(comment);
         Comment save = commentRepository.save(comment);
         CommentedUserResponse userResponse = userRepository.getCommentedUser(save.getUser().getId());
         return new CommentResponse(

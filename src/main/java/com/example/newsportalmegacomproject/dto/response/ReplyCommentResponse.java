@@ -26,4 +26,13 @@ public class ReplyCommentResponse {
         this.text = replyComment.getText();
         this.createdAt = replyComment.getCreatedAt();
     }
+
+    public ReplyCommentResponse(ReplyComment replyComment, CommentedUserResponse commentedUserResponse) {
+        this.id = replyComment.getId();
+        this.text = replyComment.getText();
+        this.createdAt = replyComment.getCreatedAt();
+        this.userResponse = commentedUserResponse;
+    }
+
+
 }

@@ -32,4 +32,11 @@ public class CommentResponse {
         this.text = comment.getText();
         this.createdAt = comment.getCreatedAt();
     }
+
+    public CommentResponse(Comment comment, CommentedUserResponse userResponse) {
+        this.id = comment.getId();
+        this.text = comment.getText();
+        this.createdAt = comment.getCreatedAt();
+        this.commentedUserResponse = userResponse;
+    }
 }

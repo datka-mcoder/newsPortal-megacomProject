@@ -17,13 +17,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ReplyToCommentService {
-    
+
     private final ReplyCommentRepository replyCommentRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
@@ -42,25 +43,33 @@ public class ReplyToCommentService {
                 () -> new NotFoundException("Comment with id: " + request.getId() + " not found!")
         );
 
-        ReplyComment replyComment = new ReplyComment(comment.getId(), request.getText());
+        ReplyComment replyComment = new ReplyComment(request.getText());
         replyComment.setComment(comment);
         comment.addReplyComment(replyComment);
         replyComment.setUser(user);
         replyCommentRepository.save(replyComment);
         CommentedUserResponse userResponse = userRepository.getCommentedUser(comment.getUser().getId());
+        List<ReplyCommentResponse> replyCommentResponses = new ArrayList<>();
         for (ReplyComment com : comment.getReplyComments()) {
-            ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(com);
             CommentedUserResponse commentedUserResponse = userRepository.getCommentedUser(com.getUser().getId());
-            replyCommentResponse.setUserResponse(commentedUserResponse);
+            ReplyCommentResponse replyCommentResponse = new ReplyCommentResponse(com, commentedUserResponse);
+            replyCommentResponses.add(replyCommentResponse);
         }
 
-        List<ReplyCommentResponse> replyComments = replyCommentRepository.getAllReplyCommentResponse(comment.getId());
         return new CommentResponse(
                 comment.getId(),
                 comment.getText(),
                 comment.getCreatedAt(),
                 userResponse,
-                replyComments
+                replyCommentResponses
         );
+    }
+
+    public List<ReplyCommentResponse> getAllReplyComments(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Comment with id: " + id + " not found!")
+        );
+
+        return replyCommentRepository.getAllReplyCommentResponse(comment.getId());
     }
 }
