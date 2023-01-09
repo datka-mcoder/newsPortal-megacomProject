@@ -2,6 +2,7 @@ package com.example.newsportalmegacomproject.db.repository;
 
 import com.example.newsportalmegacomproject.db.model.News;
 import com.example.newsportalmegacomproject.dto.response.NewsResponse;
+import com.example.newsportalmegacomproject.enums.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

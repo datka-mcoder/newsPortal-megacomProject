@@ -220,8 +220,8 @@ public class NewsService {
     }
 
     public List<NewsResponse> filterNewsByCategory(FilterNewsCategoryRequest request) {
-        List<NewsResponse> filter = new ArrayList<>();
         User user = authenticateUser();
+        List<NewsResponse> filter = new ArrayList<>();
         List<News> news = newsRepository.findAll();
         List<News> filteredNews = new ArrayList<>();
         for (News n : news) {
