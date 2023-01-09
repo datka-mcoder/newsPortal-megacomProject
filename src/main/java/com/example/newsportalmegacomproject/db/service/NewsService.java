@@ -5,6 +5,7 @@ import com.example.newsportalmegacomproject.db.repository.CommentRepository;
 import com.example.newsportalmegacomproject.db.repository.FavoriteRepository;
 import com.example.newsportalmegacomproject.db.repository.NewsRepository;
 import com.example.newsportalmegacomproject.db.repository.UserRepository;
+import com.example.newsportalmegacomproject.dto.request.FilterNewsCategoryRequest;
 import com.example.newsportalmegacomproject.dto.request.NewsRequest;
 import com.example.newsportalmegacomproject.dto.response.*;
 import com.example.newsportalmegacomproject.enums.Category;
@@ -218,13 +219,13 @@ public class NewsService {
         return newsResponses;
     }
 
-    public List<NewsResponse> filterNewsByCategory(List<Category> categories) {
-        List<NewsResponse> filter = new ArrayList<>();
+    public List<NewsResponse> filterNewsByCategory(FilterNewsCategoryRequest request) {
         User user = authenticateUser();
+        List<NewsResponse> filter = new ArrayList<>();
         List<News> news = newsRepository.findAll();
         List<News> filteredNews = new ArrayList<>();
         for (News n : news) {
-            for (Category c : categories) {
+            for (Category c : request.getCategories()) {
                 if (n.getCategory().equals(c)) {
                     filteredNews.add(n);
                 }
